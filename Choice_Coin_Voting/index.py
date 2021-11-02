@@ -14,7 +14,7 @@ import hashlib
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Oldmajor.99'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Oldmajor'
 app.config['MYSQL_DATABASE_DB'] = 'voting'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
