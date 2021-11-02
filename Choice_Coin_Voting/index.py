@@ -1,7 +1,7 @@
 # Open Source under Apache License
 #To add additional decisions/candiates, add an additional boolean at line 128.
 from flask import Flask, request, render_template, redirect, url_for
-from algorand_demo import algo_trade,choice_trade,create_optin,main_exchange
+# from algorand_demo import algo_trade,choice_trade,create_optin,main_exchange
 from algosdk import account, encoding, mnemonic
 from vote import election_voting,hashing,corporate_voting,count_votes,count_corporate_votes
 from vote import reset_votes, reset_corporate_votes
@@ -13,10 +13,10 @@ import hashlib
 
 app = Flask(__name__)
 mysql = MySQL()
-app.config['MYSQL_DATABASE_USER'] = ''
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = ''
-app.config['MYSQL_DATABASE_HOST'] = ''
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Oldmajor.99'
+app.config['MYSQL_DATABASE_DB'] = 'voting'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 conn = mysql.connect()
 cur = conn.cursor()
@@ -37,7 +37,7 @@ def start_voting():
 	global finished
 	if request.method == 'POST':
 		key = hashing(str(request.form.get('Key')))
-		if key == '':
+		if key == '4e64d2e09e49ed929fd5c41a0b2bf0aacc4eb284446b37db57b10abd87042204dc00c7f056952f2e1798d200c15c2580889f6f9d86b86527907b650ad8a12354':
 			message = reset_votes()
 			finished = False
 		else:
@@ -51,7 +51,7 @@ def start_corporate():
 	global corporate_finished
 	if request.method == 'POST':
 		key = hashing(str(request.form.get('Key')))
-		if key == '':
+		if key == '4e64d2e09e49ed929fd5c41a0b2bf0aacc4eb284446b37db57b10abd87042204dc00c7f056952f2e1798d200c15c2580889f6f9d86b86527907b650ad8a12354':
 			message = reset_corporate_votes()
 			corporate_finished = False
 		else:
@@ -65,7 +65,7 @@ def end():
 	global finished
 	if request.method == 'POST':
 		key = hashing(str(request.form.get('Key')))
-		if key == '':
+		if key == '4e64d2e09e49ed929fd5c41a0b2bf0aacc4eb284446b37db57b10abd87042204dc00c7f056952f2e1798d200c15c2580889f6f9d86b86527907b650ad8a12354':
 			message = count_votes()
 			finished = True
 		else:
@@ -79,7 +79,7 @@ def corporate_end():
 	global corporate_finished
 	if request.method == 'POST':
 		key = hashing(str(request.form.get('Key')))
-		if key == '':
+		if key == '4e64d2e09e49ed929fd5c41a0b2bf0aacc4eb284446b37db57b10abd87042204dc00c7f056952f2e1798d200c15c2580889f6f9d86b86527907b650ad8a12354':
 			message = count_corporate_votes()
 			corporate_finished = True
 		else:
@@ -166,9 +166,8 @@ def create():
 		Social = hashing(str(request.form.get('Social')))
 		Drivers = hashing(str(request.form.get('Drivers')))
 		Key = hashing(str(request.form.get('Key')))
-		if str(Key) == '':
-			cur.execute("INSERT INTO accounts (name, DL, SS) VALUES(%s,%s,%s)",((Name,Drivers,Social)))
-			conn.commit()
+		cur.execute("INSERT INTO accounts (name, DL, SS) VALUES(%s,%s,%s)",((Name,Drivers,Social)))
+		conn.commit()
 	return render_template('create.html')
 
 @app.route('/corporate_creation',methods = ['POST','GET'])
